@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable prettier/prettier */
 /* eslint-disable keyword-spacing */
 /* eslint-disable space-before-blocks */
 /* eslint-disable prettier/prettier */
@@ -13,26 +15,26 @@
 /* eslint-disable prettier/prettier */
 const http = require('http');
 
-// const server = http.createServer();  //server is an event emitter 
 const server = http.createServer((req, res) =>  {
     if(req.url === '/'){ 
-    res.write('hello world from nodejs!');
-    res.write("How's going on?")
+    res.write('<html> <head><title>Form</title></head>');
+    res.write(`<body><form method="post" action="/process"><input name="message" type="text"><input type="submit" value="submit"></form></body>`);
+    
     res.end();
-    }else if(req.url === '/about'){
-        res.write('about page');
+    }else if(req.url === '/process' && req.method === 'POST'){
+        // console.log(req.data) //it will return undefined
+        req.on('data', (chunk) => {
+            // console.log(chunk)
+            console.log(chunk.toString())
+        })
+
+        res.write('submitted successfully');
         res.end();
     }else{
         res.write('404 not found');
         res.end();
     }
 });  
-
-//when a new connection comes in a server it emitts this server
-// server.on('connection', (socket) => {
-//     console.log('new connection...');
-
-// })
 
 server.listen(3000);  //server listen's in port number 3000 
 console.log('listening on port 3000...');
